@@ -7,10 +7,17 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TodoListModule } from './todo-list/todo-list.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getMongoConfig } from './configs/mongo.config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/mongo'),
+    ConfigModule.forRoot({}),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: getMongoConfig,
+      inject: [ConfigService],
+    }),
     AuthModule,
     UsersModule,
     TodoListModule,
