@@ -5,7 +5,6 @@ import { AuthDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
-  // constructor(private readonly userModel: typeof UserModel) {} // TODO @InjectModel(UserModel) private readonly userModel: typeof UserModel
   async createUser(dto: AuthDto) {
     console.log(dto);
   }
