@@ -10,6 +10,13 @@ export class AuthController {
   async registration(@Body() dto: AuthDto) {
     return this.authServise.createUser(dto);
   }
+  @UsePipes(new ValidationPipe())
+  @Post('login')
+  async login(@Body() authDto: AuthDto) {
+    const { email } = await this.authServise.validateUser(authDto);
+    return this.authServise.login({ email });
+  }
+
   @Get('all')
   async getUsers() {
     return this.authServise.findAllUsers();
