@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, UseGuards, UsePipes, ValidationPipe } from
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt.guard';
+import { UserEmail } from 'src/decorators/user-email.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +21,8 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('all')
-  async getUsers() {
+  async getUsers(@UserEmail() userEmail: string) {
+    console.log('userEmail: ', userEmail);
     return this.authServise.findAllUsers();
   }
 }
