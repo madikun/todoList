@@ -22,7 +22,7 @@ export class AuthService {
     const hash = await hashSync(dto.password, salt);
     const newUser = await this.usersServise.createUser({ email: dto.email, passwordHash: hash });
     const userEmail: UserEmailDto = newUser.toObject();
-    await this.todoListService.createTodoList({
+    await this.todoListService.createList({
       title: '',
       list: [],
       createdAt: new Date(),

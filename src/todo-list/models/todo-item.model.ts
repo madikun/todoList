@@ -10,8 +10,12 @@ export class TodoItem {
   title: string;
   @Prop()
   text: string;
+  @Prop()
+  createdAt: Date;
+  @Prop({ default: false })
+  isDone: boolean;
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: TodoList.name })
-  relation: TodoList;
+  list: TodoList;
 }
 
 export const TodoItemSchema = SchemaFactory.createForClass(TodoItem);
