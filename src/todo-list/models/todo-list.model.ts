@@ -11,8 +11,10 @@ export class TodoList {
   title: string;
   @Prop()
   list: TodoItem[];
+  @Prop()
+  createdAt: Date;
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
-  author: User;
+  author: Pick<User, 'email'>;
 }
 
 export const TodoListSchema = SchemaFactory.createForClass(TodoList);

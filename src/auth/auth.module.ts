@@ -7,11 +7,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getJwtConfig } from 'src/configs/jwt.config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { TodoListModule } from 'src/todo-list/todo-list.module';
 
 @Module({
   controllers: [AuthController],
   imports: [
     UsersModule,
+    TodoListModule,
     ConfigModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
