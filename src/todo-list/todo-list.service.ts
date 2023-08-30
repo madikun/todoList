@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UserEmailDto } from 'src/users/dto/user-email.dto';
 import { UsersService } from 'src/users/users.service';
+import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 
 @Injectable()
 export class TodoListService {
@@ -21,6 +22,21 @@ export class TodoListService {
   async getByUser(email: UserEmailDto) {
     const { _id: userId } = await this.usersServise.findUser(email);
     const lists = await this.todoList.find({ author: userId }).exec();
+    return lists;
+  }
+
+  async renameList(updateUserDto: UpdateTodoListDto) {
+    const { _id: userId } = await this.usersServise.findUser(updateUserDto.author);
+    const list = await this.todoList
+      .findOneAndUpdate({ author: userId, _id: updateUserDto.id }, { title: updateUserDto.title })
+      .exec();
+    return list;
+  }
+
+  // TODO: add recursive remove todo list items
+  async removeList(email: UserEmailDto, listId: string) {
+    const { _id: userId } = await this.usersServise.findUser(email);
+    const lists = await this.todoList.findByIdAndRemove({ author: userId, _id: listId }).exec();
     return lists;
   }
 }
