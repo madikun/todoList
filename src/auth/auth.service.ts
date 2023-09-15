@@ -21,7 +21,7 @@ export class AuthService {
     const salt = await genSalt(10);
     const hash = await hashSync(dto.password, salt);
     const newUser = await this.usersServise.createUser({ email: dto.email, passwordHash: hash });
-    const userEmail: UserEmailDto = newUser.toObject();
+    const userEmail: UserEmailDto = newUser.email as unknown as UserEmailDto;
     await this.todoListService.createList({
       title: '',
       list: [],
