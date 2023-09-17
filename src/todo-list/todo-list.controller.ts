@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { TodoListService } from './todo-list.service';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UserEmail } from 'src/decorators/user-email.decorator';
@@ -6,9 +6,20 @@ import { UserEmailDto } from 'src/users/dto/user-email.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { CreateTodoItemDto } from './dto/create-todo-item.dto';
-import { UpdateTodoItemsDto } from './dto/update-todo-item.dto';
+import { UpdateTodoItemsDto } from './dto/update-todo-items.dto';
+import {
+  ApiTags,
+  ApiParam,
+  ApiAcceptedResponse,
+  ApiUnauthorizedResponse,
+  ApiNotFoundResponse,
+} from '@nestjs/swagger';
 
+@ApiNotFoundResponse({ status: HttpStatus.NOT_FOUND, description: 'Not found list' })
+@ApiAcceptedResponse({ status: HttpStatus.OK, description: 'User list' })
+@ApiUnauthorizedResponse({ status: HttpStatus.BAD_REQUEST, description: 'User unauthorized' })
 @UseGuards(JwtAuthGuard)
+@ApiTags('Todo')
 @Controller('todo')
 export class TodoListController {
   constructor(private readonly todoListService: TodoListService) {}
@@ -29,6 +40,8 @@ export class TodoListController {
     });
   }
 
+  @ApiNotFoundResponse({ status: HttpStatus.BAD_REQUEST, description: '' })
+  @ApiParam({ name: 'id', required: true, description: 'If empty, update first list' })
   @Patch('list/:id')
   async update(
     @UserEmail() author: UserEmailDto,
@@ -42,7 +55,7 @@ export class TodoListController {
     });
   }
 
-  @Post('create/item/:id?')
+  @Post('create-item/:id?')
   async addItemToList(
     @UserEmail() author: UserEmailDto,
     @Body() createTodoItemDto: CreateTodoItemDto,

@@ -8,7 +8,7 @@ import { UsersService } from 'src/users/users.service';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { CreateTodoItemDto } from './dto/create-todo-item.dto';
 import { TodoItem } from './models/todo-item.model';
-import { UpdateTodoItemsDto } from './dto/update-todo-item.dto';
+import { UpdateTodoItemsDto } from './dto/update-todo-items.dto';
 
 @Injectable()
 export class TodoListService {
