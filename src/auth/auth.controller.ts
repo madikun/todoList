@@ -23,13 +23,13 @@ import {
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authServise: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
   @ApiAcceptedResponse({ status: HttpStatus.OK, description: 'User email' })
   @ApiBadRequestResponse({ status: HttpStatus.BAD_REQUEST, description: 'User exist' })
   @UsePipes(new ValidationPipe())
   @Post('reg')
   async registration(@Body() dto: AuthDto): Promise<UserEmailDto> {
-    return this.authServise.createUser(dto);
+    return this.authService.createUser(dto);
   }
 
   @ApiAcceptedResponse({ status: HttpStatus.OK, description: 'User email' })
@@ -40,8 +40,9 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @Post('login')
   async login(@Body() authDto: AuthDto) {
-    const { email } = await this.authServise.validateUser(authDto);
-    return this.authServise.login({ email });
+    console.log('login: ', authDto);
+    const { email } = await this.authService.validateUser(authDto);
+    return this.authService.login({ email });
   }
 
   @ApiAcceptedResponse({ status: HttpStatus.OK, description: 'Users list' })
@@ -50,6 +51,6 @@ export class AuthController {
   @Get('all')
   async getUsers(@UserEmail() userEmail: string) {
     console.log('userEmail: ', userEmail);
-    return this.authServise.findAllUsers();
+    return this.authService.findAllUsers();
   }
 }

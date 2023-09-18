@@ -61,6 +61,7 @@ export class TodoListService {
 
   // TODO: optimize update method
   async updateItemToList(email: UserEmailDto, updateItemsDto: UpdateTodoItemsDto) {
+    console.log('email: ', email);
     const { _id: userId } = await this.usersServise.findUser(email);
     const result = await this.todoList
       .findOneAndUpdate(

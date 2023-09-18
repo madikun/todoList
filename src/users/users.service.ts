@@ -12,7 +12,9 @@ export class UsersService {
     return newUser.save();
   }
   async findUser(email: UserEmailDto): Promise<UserDocument> {
-    return this.userModel.findOne({ email }).exec();
+    const res = await this.userModel.findOne({ email }).exec();
+    console.log('res: ', res);
+    return res;
   }
 
   async findAllUsers() {

@@ -8,6 +8,7 @@ const PORT = configSevice.get('PORT');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Todo example')
     .setDescription('The Todo API description')
